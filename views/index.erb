@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>Random Image</title>
+  </head>
+  <body>
+    <ul>
+      <% @images.each do |image| %>
+      <li><img src='/images/<%=image.id%>' /></li>
+      <% end %>
+    </ul>
+  </body>
+</html>
