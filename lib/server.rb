@@ -15,10 +15,28 @@ config = YAML.load_file File.join(File.dirname(__FILE__), '..', 'config.yml')
 tmp_dir = File.expand_path(config['tmp_dir'])
 FileUtils.mkdir_p(tmp_dir) unless File.exist?(tmp_dir)
 
+image_dir = File.expand_path(config['image_dir'])
+
 db_path = File.expand_path(config['db_path'])
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, "sqlite://#{db_path}")
+
+DataMapper.auto_upgrade!
+
+if RUBY_PLATFORM.include?('darwin')
+  require 'rb-fsevent'
+  fsevent = FSEvent.new
+  fsevent.watch image_dir do |directories|
+    directories.each do |dir|
+      check = File.join(dir, '*.{jpg,jpeg,JPG}')
+      Dir.glob(check) do |path|
+        created = Image.create( :path => path )
+      end
+    end
+  end
+  Thread.new { fsevent.run }
+end
 
 class String
   def camel_case

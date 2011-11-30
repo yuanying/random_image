@@ -7,6 +7,10 @@ gem 'dm-sqlite-adapter'
 gem 'dm-pagination'
 gem 'json'
 
+if RUBY_PLATFORM.include?('darwin')
+  gem 'rb-fsevent'
+end
+
 group :test, :development do
   gem 'sinatra-contrib'
 end
