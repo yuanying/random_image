@@ -7,7 +7,7 @@ require 'yaml'
 require 'fileutils'
 require 'image'
 
-require 'sinatra'
+require 'sinatra/base'
 
 config = YAML.load_file File.join(File.dirname(__FILE__), '..', 'config.yml')
 
@@ -25,18 +25,27 @@ class String
   end
 end
 
-set :views, File.join(File.dirname(__FILE__), '..', 'views')
+class RandomImage < Sinatra::Base
 
-get '/images/:id' do
-  image = Image.get(params[:id])
-  send_file image.path
-end
+  set :views, File.join(File.dirname(__FILE__), '..', 'views')
+  set :public_folder, File.join(File.dirname(__FILE__), '..', 'public')
 
-get '/' do
-  per_page = params[:per_page] || '10'
-  per_page = per_page.to_i
-  num_page = Image.paginate.num_pages
-  @images = Image.paginate(:page => (rand(num_page - 1) + 1), :per_page => 20)
+  configure :development do
+    require 'sinatra/reloader'
+    register Sinatra::Reloader
+  end
 
-  erb :index
+  get '/images/:id' do
+    image = Image.get(params[:id])
+    send_file image.path
+  end
+
+  get '/' do
+    count = Image.count
+    id = (rand(Image.count) + 1)
+    @image = Image.get(id)
+
+    erb :index
+  end
+
 end

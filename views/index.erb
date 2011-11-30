@@ -1,12 +1,40 @@
 <html>
   <head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="/jquery.mobile-1.0.min.css" />
+    <script type="text/javascript" src="/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/jquery.mobile-1.0.min.js"></script>
+    <style type='text/css'>
+/*      body {
+        margin: 0;
+        padding: 0;
+      }*/
+      img {
+        /*max-width: 100%;*/
+        width: 100%;
+        height: auto;
+      }
+    </style>
+    <script type='text/javascript'>
+    $(function() {
+      $('#refresh').click(function() {
+        location.reload();
+        return false;
+      });
+    });
+    </script>
     <title>Random Image</title>
   </head>
   <body>
-    <ul>
-      <% @images.each do |image| %>
-      <li><img src='/images/<%=image.id%>' /></li>
-      <% end %>
-    </ul>
+    <div data-role='page' data-fullscreen='true'>
+      <div data-role='content'>
+        <img src='/images/<%=@image.id%>' />
+      </div>
+      <div data-role="footer"  data-position="fixed">
+        <a data-role='button' data-icon='refresh' id='refresh'>Reload</a>
+      </div>
+    </div>
   </body>
 </html>
