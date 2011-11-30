@@ -8,6 +8,7 @@ require 'fileutils'
 require 'image'
 
 require 'sinatra/base'
+require 'json'
 
 config = YAML.load_file File.join(File.dirname(__FILE__), '..', 'config.yml')
 
@@ -40,11 +41,38 @@ class RandomImage < Sinatra::Base
     send_file image.path
   end
 
-  get '/' do
+  post '/images/:id' do
+    image = Image.get(params[:id])
+    image.point = image.point + 1
+    image.save
+    content_type :json
+    true.to_json
+  end
+
+  get '/favorite' do
     @count    = Image.count
-    @next_id  = rand(Image.count) + 1
-    @id       = params[:id] || (rand(Image.count) + 1)
-    @image    = Image.get(@id)
+    @page     = params[:page] || 0
+    @page     = @page.to_i
+    @next     = @page + 1;
+    @next     = @count - 1 if @next >= @count
+    @previous = @page - 1;
+    @previous = 0 if @previous < 0
+
+    @image    = Image.all(:order => [:point.desc], :offset => @page, :limit => 1).first
+
+    erb :favorite
+  end
+
+  get '/' do
+    @count        = Image.count
+    @id           = params[:id] || (rand(Image.count) + 1)
+    @id           = @id.to_i
+    @next_id      = @id + 1
+    @next_id      = 0 if @next_id > @count
+    @previous_id  = @id - 1
+    @previous_id  = @count if @previous_id == 0
+
+    @image        = Image.get(@id)
 
     erb :index
   end

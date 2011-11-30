@@ -67,11 +67,11 @@
             data-icon='back'
             data-prefetch='true'
             data-direction='reverse'
-            class='back' href='/?id=<%=@previous_id%>'>Back</a>
+            class='back' href='/favorite?page=<%=@previous%>'>Back</a>
         <a  data-role='button'
             data-icon='forward'
             data-prefetch='true'
-            class='forward' href='/?id=<%=@next_id%>'>Forward</a>
+            class='forward' href='/favorite?page=<%=@next%>'>Forward</a>
 
         <a data-role='button' title='<%=@image.id%>' data-icon='check' class='check ui-btn-right' data-theme='b'>Like</a>
       </div>

@@ -88,5 +88,6 @@ DEPENDENCIES
   data_mapper
   dm-pagination
   dm-sqlite-adapter
+  json
   sinatra
   sinatra-contrib
