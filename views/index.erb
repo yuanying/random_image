@@ -19,10 +19,20 @@
     </style>
     <script type='text/javascript'>
     $(function() {
-      $('#refresh').click(function() {
-        location.reload();
+      var count = <%= @count %>;
+      var nextId = <%= @image.id%> + 1;
+      $('.forward').live('click', function() {
+        if (nextId >= count) {
+          nextId = 1;
+        }
+        $.mobile.changePage('/?id=' + nextId);
+        nextId = nextId + 1;
         return false;
       });
+      // $('.back').live('click', function() {
+      //   history.back();
+      //   return false;
+      // });
     });
     </script>
     <title>Random Image</title>
@@ -30,10 +40,13 @@
   <body>
     <div data-role='page' data-fullscreen='true'>
       <div data-role='content'>
+        <!-- <img id='image' /> -->
         <img src='/images/<%=@image.id%>' />
       </div>
       <div data-role="footer"  data-position="fixed">
-        <a data-role='button' data-icon='refresh' id='refresh'>Reload</a>
+        <a data-role='button' data-icon='back' data-rel='back' data-direction="reverse" class='back'>Back</a>
+        <a data-role='button' data-icon='forward' class='forward'>Forward</a>
+        <a data-role='button' data-icon='refresh' class='refresh' href='/?id=<%=@next_id%>'>Reload</a>
       </div>
     </div>
   </body>

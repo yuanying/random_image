@@ -41,9 +41,10 @@ class RandomImage < Sinatra::Base
   end
 
   get '/' do
-    count = Image.count
-    id = (rand(Image.count) + 1)
-    @image = Image.get(id)
+    @count    = Image.count
+    @next_id  = rand(Image.count) + 1
+    @id       = params[:id] || (rand(Image.count) + 1)
+    @image    = Image.get(@id)
 
     erb :index
   end
