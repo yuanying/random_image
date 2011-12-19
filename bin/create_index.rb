@@ -25,10 +25,14 @@ Dir.glob(File.join(config.image_dir, '**', '*.{jpg,jpeg,JPG}')) do |path|
     image = Image.create( :path => path, :exists => true )
   end
   unless File.exist?(image.thumbnail_path(config))
-    ImageScience.with_image(image.path) do |img|
-      img.cropped_thumbnail(57) do |thumb|
-        thumb.save image.thumbnail_path(config)
+    begin
+      ImageScience.with_image(image.path) do |img|
+        img.cropped_thumbnail(57) do |thumb|
+          thumb.save image.thumbnail_path(config)
+        end
       end
+    rescue
+      puts "Cannot create thumbnail: #{image.path}"
     end
   end
 end
