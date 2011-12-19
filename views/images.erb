@@ -15,27 +15,23 @@
         width: 100%;
         height: auto;
       }
+      .thumbs {
+        margin: 0px;
+        padding: 0;
+      }
+      .thumbs li {
+        margin: 0px;
+        padding: 0;
+        display: inline;
+      }
+      .thumbs img {
+        width: 78px;
+        height: 78px;
+        border: none;
+      }
     </style>
     <script type='text/javascript'>
     $(function() {
-      // var count = <%= @count %>;
-      // var currentId = <%= @image.id%>;
-      // $('.forward').live('click', function() {
-      //   currentId = currentId + 1;
-      //   if (currentId >= count) {
-      //     currentId = 1;
-      //   }
-      //   $.mobile.changePage('/?id=' + currentId);
-      //   return false;
-      // });
-      // $('.back').live('click', function() {
-      //   currentId = currentId - 1;
-      //   if (currentId == 0) {
-      //     currentId = count;
-      //   }
-      //   $.mobile.changePage('/?id=' + currentId, { 'reverse': true });
-      //   return false;
-      // });
       $('.refresh').live('click', function() {
         location.href = '/';
         return false;
@@ -55,7 +51,7 @@
       <div data-role="header" data-position="fixed">
         <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
         <h1>RI</h1>
-        <a data-role='button' data-icon='star' class='star' href='/favorite'>Favorite</a>
+        <a data-role='button' data-icon='star' class='star' href='/favorites'>Favorite</a>
       </div>
       <div data-role='content'>
         <!-- <img id='image' /> -->

@@ -5,22 +5,16 @@ DataMapper::Model.append_extensions DmPagination::Paginatable
 
 require 'yaml'
 require 'fileutils'
+require 'ri_config'
 require 'image'
 
 require 'sinatra/base'
 require 'json'
 
-config = YAML.load_file File.join(File.dirname(__FILE__), '..', 'config.yml')
-
-tmp_dir = File.expand_path(config['tmp_dir'])
-FileUtils.mkdir_p(tmp_dir) unless File.exist?(tmp_dir)
-
-image_dir = File.expand_path(config['image_dir'])
-
-db_path = File.expand_path(config['db_path'])
+$config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
 
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, "sqlite://#{db_path}")
+DataMapper.setup(:default, "sqlite://#{$config.db_path}")
 
 DataMapper.auto_upgrade!
 
@@ -53,6 +47,24 @@ class RandomImage < Sinatra::Base
     true.to_json
   end
 
+  get '/thumbs/:id' do
+    image = Image.get(params[:id])
+    send_file image.thumbnail_path($config)
+  end
+
+  get '/favorites' do
+    @per_page = 40
+    @images   = Image.paginate(:order => [:point.desc], :page => params[:page], :per_page => @per_page)
+    @page     = params[:page] || 1
+    @page     = @page.to_i
+    @next     = @page + 1;
+    @next     = @count - 1 if @next >= @images.num_pages
+    @previous = @page - 1;
+    @previous = 1 if @previous < 1
+
+    erb :favorites
+  end
+
   get '/favorite' do
     @count    = Image.count
     @page     = params[:page] || 0
@@ -78,7 +90,7 @@ class RandomImage < Sinatra::Base
 
     @image        = Image.get(@id)
 
-    erb :index
+    erb :images
   end
 
 end

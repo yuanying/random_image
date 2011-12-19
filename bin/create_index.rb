@@ -6,32 +6,12 @@ require 'dm-migrations'
 
 require 'yaml'
 require 'fileutils'
+require 'ri_config'
 require 'image_science'
 require 'image'
 
-class RIConfig
-  attr_reader :opts
-  def initialize path
-    @opts = YAML.load_file path
-  end
-
-  def image_dir
-    File.expand_path(opts['image_dir'])
-  end
-
-  def tmp_dir
-    File.expand_path(opts['tmp_dir'])
-  end
-
-  def db_path
-    File.expand_path(opts['db_path']).tap do |db_path|
-      FileUtils.mkdir_p(File.dirname(db_path)) unless File.exist?(File.dirname(db_path))
-    end
-  end
-end
 
 config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
-
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, "sqlite://#{config.db_path}")
