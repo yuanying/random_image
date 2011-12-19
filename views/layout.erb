@@ -52,7 +52,7 @@
         return false;
       });
       $('.check').live('click', function() {
-        $.post('/images/' + $(this).attr('title'), {}, function(data) {
+        $.post('/files/' + $(this).attr('title'), {}, function(data) {
           alert('Like!');
           $(this).attr('data-theme', 'e');
         });
