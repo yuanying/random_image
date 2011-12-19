@@ -9,6 +9,7 @@ require 'ri_config'
 require 'image'
 
 require 'sinatra/base'
+require 'sinatra-xsendfile'
 require 'json'
 
 $config = RIConfig.new(File.join(File.dirname(__FILE__), '..', 'config.yml'))
@@ -28,6 +29,10 @@ class RandomImage < Sinatra::Base
 
   set :views, File.join(File.dirname(__FILE__), '..', 'views')
   set :public_folder, File.join(File.dirname(__FILE__), '..', 'public')
+
+  configure :production do
+    Sinatra::Xsendfile.replace_send_file!
+  end
 
   configure :development do
     require 'sinatra/reloader'
