@@ -42,7 +42,7 @@ class RandomImage < Sinatra::Base
 
   get '/images/:id' do
     image = Image.get(params[:id])
-    send_file image.path
+    send_file image.path.to_s
   end
 
   post '/images/:id' do
