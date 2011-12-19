@@ -27,7 +27,7 @@ Dir.glob(File.join(config.image_dir, '**', '*.{jpg,jpeg,JPG}')) do |path|
   unless File.exist?(image.thumbnail_path(config))
     begin
       ImageScience.with_image(image.path) do |img|
-        img.cropped_thumbnail(57) do |thumb|
+        img.cropped_thumbnail(76) do |thumb|
           thumb.save image.thumbnail_path(config)
         end
       end
