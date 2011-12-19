@@ -1,79 +1,29 @@
-<html>
-  <head>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-    <link rel="stylesheet" href="/jquery.mobile-1.0.min.css" />
-    <script type="text/javascript" src="/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="/jquery.mobile-1.0.min.js"></script>
-    <style type='text/css'>
-/*      body {
-        margin: 0;
-        padding: 0;
-      }*/
-      img {
-        /*max-width: 100%;*/
-        width: 100%;
-        height: auto;
-      }
-      .thumbs {
-        margin: 0;
-        padding: 0;
-      }
-      .thumbs li {
-        margin: 2px;
-        padding: 0;
-        display: inline-block;
-      }
-      .thumbs img {
-        width: 76px;
-        height: 76px;
-        border: none;
-      }
-    </style>
-    <script type='text/javascript'>
-    $(function() {
-      $('.refresh').live('click', function() {
-        location.href = '/';
-        return false;
-      });
-      $('.check').live('click', function() {
-        $.post('/images/' + $(this).attr('title'), {}, function(data) {
-          alert('Like!');
-          $(this).attr('data-theme', 'e');
-        });
-      });
-    });
-    </script>
-    <title>Random Image</title>
-  </head>
-  <body>
-    <div data-role='page' data-fullscreen='true'>
-      <div data-role="header" data-position="fixed">
-        <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
-        <h1>Favs</h1>
-        <a data-role='button' data-icon='star' class='star' href='/favorites'>Favorite</a>
-      </div>
 
-      <div data-role='content'>
-        <ul class='thumbs'>
+<div data-role='page' data-fullscreen='true'>
+  <div data-role="header" data-position="fixed">
+    <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
+    <h1>Favs</h1>
+    <a data-role='button' data-icon='star' class='star' href='/favorites'>Favorite</a>
+  </div>
+
+  <div data-role='content'>
+    <ul class='thumbs'>
 <!-- --><% @images.each_with_index do |image, i| %><!--
-          --><li><a href='/favorite?page=<%=@per_page * @page + i%>'><img src='/thumbs/<%=image.id%>' width='76' height='76' alt='' /></a></li><!--
-     --><% end %>
-        </ul>
-      </div>
+      --><li><a href='/favorite?page=<%=@per_page * @page + i%>'><img src='/thumbs/<%=image.id%>' width='76' height='76' alt='' /></a></li><!--
+ --><% end %>
+    </ul>
+  </div>
 
-      <div data-role="footer" data-position="fixed">
-        <a  data-role='button'
-            data-icon='back'
-            data-prefetch='true'
-            data-direction='reverse'
-            class='back' href='/favorites?page=<%=@previous%>'>Back</a>
-        <a  data-role='button'
-            data-icon='forward'
-            data-prefetch='true'
-            class='forward' href='/favorites?page=<%=@next%>'>Forward</a>
+  <div data-role="footer" data-position="fixed">
+    <a  data-role='button'
+        data-icon='back'
+        data-prefetch='true'
+        data-direction='reverse'
+        class='back' href='/favorites?page=<%=@previous%>'>Back</a>
+    <a  data-role='button'
+        data-icon='forward'
+        data-prefetch='true'
+        class='forward' href='/favorites?page=<%=@next%>'>Forward</a>
 
-      </div>
-    </div>
-  </body>
-</html>
+  </div>
+</div>
