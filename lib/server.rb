@@ -40,12 +40,39 @@ class RandomImage < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  get '/' do
+    @per_page = 40
+    @page     = (params[:page] || (rand(Image.count) / @per_page + 1)).to_i
+    @images   = Image.paginate(:order => [:point.desc], :page => @page, :per_page => @per_page)
+    @next     = @page + 1;
+    @next     = 1 if @next >= @images.num_pages
+    @previous = @page - 1;
+    @previous = @images.num_pages if @previous < 1
+
+    erb :index
+  end
+
   get '/images/:id' do
+    @id           = params[:id] || (rand(Image.count) + 1)
+    @id           = @id.to_i
+
+    @image        = Image.get(@id)
+    @next         = Image.first(:id.gt => @id, :order => [:id.asc])
+    @next         = Image.first unless @next
+    @next_id      = @next.id
+    @previous     = Image.first(:id.lt => @id, :order => [:id.desc])
+    @previous     = Image.last unless @previous
+    @previous_id  = @previous.id
+
+    erb :images
+  end
+
+  get '/files/:id' do
     image = Image.get(params[:id])
     send_file image.path.to_s
   end
 
-  post '/images/:id' do
+  post '/files/:id' do
     image = Image.get(params[:id])
     image.point = image.point + 1
     image.save
@@ -60,13 +87,13 @@ class RandomImage < Sinatra::Base
 
   get '/favorites' do
     @per_page = 40
-    @images   = Image.paginate(:order => [:point.desc], :page => params[:page], :per_page => @per_page)
     @page     = params[:page] || 1
     @page     = @page.to_i
+    @images   = Image.paginate(:order => [:point.desc], :page => @page, :per_page => @per_page)
     @next     = @page + 1;
-    @next     = @count - 1 if @next >= @images.num_pages
+    @next     = 1 if @next >= @images.num_pages
     @previous = @page - 1;
-    @previous = 1 if @previous < 1
+    @previous = @images.num_pages if @previous < 1
 
     erb :favorites
   end
@@ -83,20 +110,6 @@ class RandomImage < Sinatra::Base
     @image    = Image.all(:order => [:point.desc], :offset => @page, :limit => 1).first
 
     erb :favorite
-  end
-
-  get '/' do
-    @count        = Image.count
-    @id           = params[:id] || (rand(Image.count) + 1)
-    @id           = @id.to_i
-    @next_id      = @id + 1
-    @next_id      = 0 if @next_id > @count
-    @previous_id  = @id - 1
-    @previous_id  = @count if @previous_id == 0
-
-    @image        = Image.get(@id)
-
-    erb :images
   end
 
 end

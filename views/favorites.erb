@@ -1,5 +1,5 @@
 
-<div data-role='page' data-fullscreen='true'>
+<div data-role='page' data-fullscreen='true' class='favorites' id='page_<%=@page%>'>
   <div data-role="header" data-position="fixed">
     <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
     <h1>Favs</h1>
@@ -9,7 +9,7 @@
   <div data-role='content'>
     <ul class='thumbs'>
 <!-- --><% @images.each_with_index do |image, i| %><!--
-      --><li><a href='/favorite?page=<%=@per_page * @page + i%>'><img src='/thumbs/<%=image.id%>' width='76' height='76' alt='' /></a></li><!--
+      --><li><a href='/favorite?page=<%=@per_page * (@page - 1) + i%>'><img src='/thumbs/<%=image.id%>' width='76' height='76' alt='' /></a></li><!--
  --><% end %>
     </ul>
   </div>

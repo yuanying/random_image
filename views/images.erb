@@ -1,5 +1,5 @@
 
-<div data-role='page' data-fullscreen='true'>
+<div data-role='page' data-fullscreen='true' class='images'>
   <div data-role="header" data-position="fixed">
     <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
     <h1>RI</h1>
@@ -7,18 +7,18 @@
   </div>
   <div data-role='content'>
     <!-- <img id='image' /> -->
-    <img src='/images/<%=@image.id%>' />
+    <img src='/files/<%=@image.id%>' />
   </div>
   <div data-role="footer" data-position="fixed">
     <a  data-role='button'
         data-icon='back'
         data-prefetch='true'
         data-direction='reverse'
-        class='back' href='/?id=<%=@previous_id%>'>Back</a>
+        class='back' href='/images/<%=@previous_id%>'>Back</a>
     <a  data-role='button'
         data-icon='forward'
         data-prefetch='true'
-        class='forward' href='/?id=<%=@next_id%>'>Forward</a>
+        class='forward' href='/images/<%=@next_id%>'>Forward</a>
 
     <a data-role='button' title='<%=@image.id%>' data-icon='check' class='check ui-btn-right' data-theme='b'>Like</a>
   </div>

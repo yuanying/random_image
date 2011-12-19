@@ -1,25 +1,29 @@
 
-<div data-role='page' data-fullscreen='true' class='favorite'>
+<div data-role='page' data-fullscreen='true' class='index' id='page_<%=@page%>'>
   <div data-role="header" data-position="fixed">
     <a data-role='button' data-icon='home' class='refresh' href='/'>Home</a>
-    <h1>Fav</h1>
+    <h1>RI</h1>
     <a data-role='button' data-icon='star' class='star' href='/favorites'>Favorite</a>
   </div>
+
   <div data-role='content'>
-    <!-- <img id='image' /> -->
-    <img src='/files/<%=@image.id%>' />
+    <ul class='thumbs'>
+<!-- --><% @images.each_with_index do |image, i| %><!--
+      --><li><a href='/images/<%=image.id%>'><img src='/thumbs/<%=image.id%>' width='76' height='76' alt='' /></a></li><!--
+ --><% end %>
+    </ul>
   </div>
+
   <div data-role="footer" data-position="fixed">
     <a  data-role='button'
         data-icon='back'
         data-prefetch='true'
         data-direction='reverse'
-        class='back' href='/favorite?page=<%=@previous%>'>Back</a>
+        class='back' href='/?page=<%=@previous%>'>Back</a>
     <a  data-role='button'
         data-icon='forward'
         data-prefetch='true'
-        class='forward' href='/favorite?page=<%=@next%>'>Forward</a>
+        class='forward' href='/?page=<%=@next%>'>Forward</a>
 
-    <a data-role='button' title='<%=@image.id%>' data-icon='check' class='check ui-btn-right' data-theme='b'>Like</a>
   </div>
 </div>
