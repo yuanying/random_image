@@ -38,5 +38,5 @@ Dir.glob(File.join(config.image_dir, '**', '*.{jpg,jpeg,JPG}')) do |path|
 end
 
 Image.all(:exists => false).destroy
-Image.all(:exists => true).update(:exists => false)
+Image.update(:exists => false)
 
