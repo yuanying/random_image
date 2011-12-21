@@ -7,7 +7,7 @@ gem 'data_mapper'
 gem 'dm-sqlite-adapter'
 gem 'dm-pagination'
 gem 'json'
-gem 'RubyInline'
+gem 'RubyInline', '3.7.0'
 gem 'image_science'
 
 group :test, :development do
