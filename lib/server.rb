@@ -43,7 +43,7 @@ class RandomImage < Sinatra::Base
   get '/' do
     @per_page = 40
     @page     = (params[:page] || (rand(Image.count) / @per_page + 1)).to_i
-    @images   = Image.paginate(:order => [:point.desc], :page => @page, :per_page => @per_page)
+    @images   = Image.paginate(:order => [:id.asc], :page => @page, :per_page => @per_page)
     @next     = @page + 1;
     @next     = 1 if @next >= @images.num_pages
     @previous = @page - 1;
